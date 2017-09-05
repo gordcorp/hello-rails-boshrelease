@@ -1,0 +1,98 @@
+name: &name hello-rails
+
+releases:
+- name: hello-rails
+  version: latest
+- name: postgres
+  url: https://github.com/cloudfoundry-community/postgres-boshrelease/releases/download/v1.0.3/postgres-1.0.3.tgz
+  version: 1.0.3
+  sha1: f3f0282266b492a3e72a94c745caec1a6a41bf46
+
+instance_groups:
+- name: postgres
+  azs: [z1]
+  instances: 1
+  vm_type: default
+  stemcell: default
+  persistent_disk_type: default
+  networks: [{name: default}]
+  jobs:
+  - name: postgres
+    release: postgres
+    provides:
+      db: {as: postgres-db}
+    properties:
+      postgres:
+        config:
+          port: 6432
+        replication:
+          enabled: true
+        hba: &pg_hba
+        - host all all 0.0.0.0/0 trust
+        - host all all ::/0 trust
+      pgpool:
+        users: &pgpool_users
+        - admin: true
+          password: ((postgres-admin-password))
+          username: admin
+        databases:
+        - extensions: []
+          name: hello-rails
+          users:
+          - admin
+  - name: pgpool
+    release: postgres
+    properties:
+      pcp:
+        system_password: super-secret
+      pgpool:
+        debug: true
+        backend:
+          port: 6432
+        config:
+          enable_pool_hba: true
+          port: 5432
+        hba: *pg_hba
+        users: *pgpool_users
+- name: hello-rails
+  azs: [z1]
+  instances: 1
+  vm_type: default
+  stemcell: default
+  persistent_disk_type: default
+  networks:
+  - name: default
+  jobs:
+  - name: hello-rails
+    release: hello-rails
+    consumes:
+      db: {from: postgres-db}
+  properties:
+    application:
+      secret_key_base: ((application-secret-key-base))
+      port: 3000
+    postgres:
+      db_name: hello-rails
+      password: ((postgres-admin-password))
+      username: admin
+      sslmode: disable
+
+variables:
+- name: postgres-admin-password
+  type: password
+- name: application-secret-key-base
+  type: password
+  options:
+    length: 128
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 3000-30000
+  update_watch_time: 3000-30000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest

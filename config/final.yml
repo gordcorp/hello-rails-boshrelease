@@ -1,0 +1,9 @@
+---
+blobstore:
+  provider: s3
+  options:
+    bucket_name: todo-hello-rails-bosh-blobs
+    region: ap-southeast-2
+    endpoint: https://s3-ap-southeast-2.amazonaws.com
+
+final_name: hello-rails

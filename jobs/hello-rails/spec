@@ -1,0 +1,47 @@
+---
+name: hello-rails
+
+templates:
+  ctl: bin/ctl
+  properties.sh.erb: data/properties.sh
+
+consumes:
+- name: db
+  type: postgresql
+  optional: true
+- name: postgres-release-db
+  type: database
+  optional: true
+
+packages:
+- hello-rails
+- ruby_2.3.4
+- libpq
+- node
+
+properties:
+
+  application.port:
+    description: "binding port for application"
+    default: "3000"
+
+  application.secret_key_base:
+    description: "Application secret key used for verifying the integrity of signed cookies"
+
+  postgres.db_name:
+    description: "Postgres database name (if not available via link)"
+
+  postgres.username:
+    description: "Postgres database username (if not available via link)"
+
+  postgres.password:
+    description: "Postgres database password (if not available via link)"
+
+  postgres.sslmode:
+    description: "Postgres database SSL mode (if not available via link)"
+    default: "require"
+    examples: require, verify-full, verify-ca, disable
+
+  postgres.port:
+    description: "Port to connect to postgres (if not available via link)"
+    default: "5432"

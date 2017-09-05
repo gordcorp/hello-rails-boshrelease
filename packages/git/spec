@@ -1,0 +1,7 @@
+---
+name: git
+
+dependencies: []
+
+files:
+- git/git-2.9.4.tar.gz # from https://www.kernel.org/pub/software/scm/git/git-2.9.4.tar.gz

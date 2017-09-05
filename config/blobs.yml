@@ -1,0 +1,28 @@
+git/git-2.9.4.tar.gz:
+  size: 5921866
+  object_id: fbd17f0a-4a31-4bf0-5679-9cee74a7e2d5
+  sha: e64eff049aa7dc33cd161ad4571c133eae1a73db
+node/node-v6.11.0-linux-x64.tar.gz:
+  size: 13989605
+  object_id: 8428e8f6-1dae-41d5-47be-a8f120b04597
+  sha: 5adf2250e2559b9bace71db7c307190ddd33e682
+node/node-v8.1.2-linux-x64.tar.gz:
+  size: 17047292
+  object_id: 63c66dc4-8aa0-430a-6907-b334178c2954
+  sha: 61a609c83e2d3458cc2301a63b212a97e6b9f809
+node/yarn-v0.24.6.tar.gz:
+  size: 779158
+  object_id: a7780e89-d0ca-40fb-587d-89db2c750a90
+  sha: 2c8438f758afc76f8444c757425569584670a910
+postgres/postgresql-9.4.12.tar.gz:
+  size: 23420452
+  object_id: 0ab7b88f-b69d-42d1-63df-6599289782a0
+  sha: 1405b6faf980c6a6ddd6869856a9859f6e13bcae
+ruby_2.3.4/bundler-1.15.1.gem:
+  size: 338432
+  object_id: 6700f79e-5dfa-44a9-6d8d-39fb10a3301e
+  sha: d3e95482b0ba4370cbd27cc455f9b364acfe81ff
+ruby_2.3.4/ruby-2.3.4.tar.gz:
+  size: 17820518
+  object_id: fa6c346a-40ea-473d-54d7-ea208a8f795f
+  sha: d064b9c69329ca2eb2956ad57b7192184178e35d

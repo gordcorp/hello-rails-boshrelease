@@ -1,0 +1,8 @@
+---
+name: ruby_2.3.4
+
+dependencies: []
+
+files:
+- ruby_2.3.4/ruby-2.3.4.tar.gz # from https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.4.tar.gz
+- ruby_2.3.4/bundler-1.15.1.gem # from https://rubygems.org/downloads/bundler-1.15.1.gem

@@ -1,0 +1,12 @@
+set -e
+
+tar xzf ruby_2.3.4/ruby-2.3.4.tar.gz
+pushd ruby-2.3.4
+  ./configure \
+    --prefix=${BOSH_INSTALL_TARGET} \
+    --disable-install-doc
+  make
+  make install
+popd
+
+${BOSH_INSTALL_TARGET}/bin/gem install ruby_2.3.4/bundler-1.15.1.gem --no-ri --no-rdoc

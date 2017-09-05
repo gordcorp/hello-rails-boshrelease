@@ -1,0 +1,22 @@
+<h1>Hello Rails!</h1>
+<p>Your ip is <%= @ip %></p>
+
+<h2>Visitors</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Ip</th>
+    <th>Visits</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @visitors.each do |visitor| %>
+      <tr>
+        <td><%= visitor.ip %></td>
+        <td><%= visitor.visits %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

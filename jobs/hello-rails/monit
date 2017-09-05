@@ -1,0 +1,5 @@
+check process hello-rails
+  with pidfile /var/vcap/sys/run/hello-rails/pid
+  start program "/var/vcap/jobs/hello-rails/bin/ctl start"
+  stop program "/var/vcap/jobs/hello-rails/bin/ctl stop"
+  group vcap

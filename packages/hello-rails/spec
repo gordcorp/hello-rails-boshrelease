@@ -1,0 +1,10 @@
+---
+name: hello-rails
+
+dependencies:
+- ruby_2.3.4
+- node
+- libpq
+
+files:
+- hello-rails/**/*

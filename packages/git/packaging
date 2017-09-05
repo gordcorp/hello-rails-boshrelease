@@ -1,0 +1,11 @@
+set -e
+
+tar xzf git/git-2.9.4.tar.gz
+
+cd git-2.9.4
+
+./configure \
+  --prefix=${BOSH_INSTALL_TARGET}
+
+make
+make install

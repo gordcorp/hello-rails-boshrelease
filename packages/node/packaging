@@ -1,0 +1,5 @@
+set -e
+
+tar xzvf ${BOSH_COMPILE_TARGET}/node/node-v8.1.2-linux-x64.tar.gz
+
+cp -a ${BOSH_COMPILE_TARGET}/node-*/* ${BOSH_INSTALL_TARGET}/

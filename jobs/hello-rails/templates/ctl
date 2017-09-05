@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+set -o pipefail # cause a pipeline (for example, curl -s http://sipb.mit.edu/ | grep foo) to produce a failure return code if any command errors not just the last command of the pipeline.
+
+source /var/vcap/jobs/hello-rails/data/properties.sh
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+
+    cd /var/vcap/packages/hello-rails
+
+    chown -R vcap:vcap \
+      $RUN_DIR $LOG_DIR tmp
+
+    #Run db:migrate
+    #If it fails we will assume the db doesnt exist and run a db:setup
+    # chpst -u vcap:vcap bundle exec \
+    #   rails db:migrate >>  $LOG_DIR/$JOB_NAME.stdout.log \
+    #   2>> $LOG_DIR/$JOB_NAME.stderr.log || \
+    #   chpst -u vcap:vcap bundle exec rails db:setup \
+    #   >>  $LOG_DIR/$JOB_NAME.stdout.log \
+    #   2>> $LOG_DIR/$JOB_NAME.stderr.log
+
+    #Run db:migrate
+    chpst -u vcap:vcap bundle exec \
+      rails db:migrate >>  $LOG_DIR/$JOB_NAME.stdout.log \
+      2>> $LOG_DIR/$JOB_NAME.stderr.log
+
+    #Run our application
+    exec chpst -u vcap:vcap bundle exec \
+      rails server \
+      --port $PORT \
+      --pid=$PIDFILE \
+      --daemon \
+      >>  $LOG_DIR/$JOB_NAME.stdout.log \
+      2>> $LOG_DIR/$JOB_NAME.stderr.log
+
+    ;;
+
+  stop)
+    kill -9 `cat $PIDFILE`
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

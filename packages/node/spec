@@ -1,0 +1,7 @@
+---
+name: node
+
+dependencies: []
+
+files:
+- node/node-v8.1.2-linux-x64.tar.gz # from https://nodejs.org/dist/v8.1.2/node-v8.1.2-linux-x64.tar.gz

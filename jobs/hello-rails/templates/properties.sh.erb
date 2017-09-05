@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+JOB_NAME=hello-rails
+JOB_DIR=/var/vcap/jobs/$JOB_NAME
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+
+PIDFILE=${RUN_DIR}/pid
+
+export PATH=/var/vcap/packages/ruby_2.3.4/bin:$PATH
+export PATH=/var/vcap/packages/node/bin:$PATH
+
+# note - we expect assets:precompile to have been run during packaging
+export RAILS_SERVE_STATIC_FILES=true
+
+export RAILS_LOG_TO_STDOUT=true
+
+export RAILS_ENV=production
+
+export SECRET_KEY_BASE=<%= p('application.secret_key_base') %>
+export PORT=<%= p('application.port') %>
+
+# export DB_CONCURRENCY=todo
+
+<%
+port = ""
+host = ""
+username = ""
+password = ""
+db_name = ""
+sslmode = ""
+if_link("db") do
+  db = link("db")
+  port = db.p("port", p("postgres.port"))
+  host = "#{db.instances.first.address}:#{port}"
+  username = db.p("username", p("postgres.username"))
+  password = db.p("password", p("postgres.password"))
+  db_name = db.p("db_name", p("postgres.db_name"))
+  sslmode = db.p("sslmode", p("postgres.sslmode"))
+-%>
+export DATABASE_URL="postgres://<%= username %>:<%= password %>@<%= host %>/<%= db_name %>?sslmode=<%= sslmode %>"
+<%
+end
+if_link("postgres-release-db") do
+  db = link("postgres-release-db")
+  port = p("postgres.port")
+  host = "#{db.instances.first.address}:#{port}"
+  username = p("postgres.username")
+  password = p("postgres.password")
+  db_name = p("postgres.db_name")
+  sslmode = p("postgres.sslmode")
+-%>
+export DATABASE_URL="postgres://<%= username %>:<%= password %>@<%= host %>/<%= db_name %>?sslmode=<%= sslmode %>"
+<%
+end
+-%>
